@@ -25,12 +25,12 @@ import 'model/schedule_page_model.dart';
 
 final Store<AppState> state = Store<AppState>(appReducers,
     /* Function defined in the reducers file */
-    initialState:  AppState(null),
+    initialState: AppState(null),
     middleware: [generalMiddleware]);
 
 void main() {
   OnStartUp.onStart(state);
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -57,24 +57,23 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch (settings.name) {
               case '/' + Constants.navPersonalArea:
-                return MaterialPageRoute(
-                    builder: (context) => HomePageView(), settings: settings);
+                return makePageTransition(
+                    page: HomePageView(), settings: settings);
               case '/' + Constants.navSchedule:
-                return MaterialPageRoute(
-                    builder: (context) => SchedulePage(), settings: settings);
+                return makePageTransition(
+                    page: SchedulePage(), settings: settings);
               case '/' + Constants.navExams:
-                return MaterialPageRoute(
-                    builder: (context) => ExamsPageView(), settings: settings);
+                return makePageTransition(
+                    page: ExamsPageView(), settings: settings);
               case '/' + Constants.navStops:
-                return MaterialPageRoute(
-                    builder: (context) => BusStopNextArrivalsPage(),
-                    settings: settings);
+                return makePageTransition(
+                    page: BusStopNextArrivalsPage(), settings: settings);
               case '/' + Constants.navAbout:
-                return MaterialPageRoute(
-                    builder: (context) => AboutPageView(), settings: settings);
+                return makePageTransition(
+                    page: AboutPageView(), settings: settings);
               case '/' + Constants.navBugReport:
-                return MaterialPageRoute(
-                    builder: (context) => BugReportPageView(),
+                return makePageTransition(
+                    page: BugReportPageView(),
                     settings: settings,
                     maintainState: false);
               case '/' + Constants.navLogOut:
@@ -90,7 +89,23 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic( Duration(seconds: 60),
-        (Timer t) => state.dispatch( SetCurrentTimeAction(DateTime.now())));
+    Timer.periodic(Duration(seconds: 60),
+        (Timer t) => state.dispatch(SetCurrentTimeAction(DateTime.now())));
+  }
+
+  Route makePageTransition(
+      {Widget page, bool maintainState = true, RouteSettings settings}) {
+    return PageRouteBuilder(
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) {
+          return page;
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        settings: settings,
+        maintainState: maintainState,
+        transitionsBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation, Widget child) {
+          return FadeTransition(opacity: animation, child: child);
+        });
   }
 }
