@@ -101,12 +101,16 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       backgroundColor: Theme.of(context).backgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
-          minWidth: 0,
-          padding: EdgeInsets.only(left: 0),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: RoundedRectangleBorder(),
-          child: FlatButton(
-            onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
+        minWidth: 0,
+        padding: EdgeInsets.only(left: 0),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(),
+        child: FlatButton(
+            onPressed: () {
+              if(ModalRoute.of(context).settings.name != '/Área Pessoal') {
+                Navigator.pushNamed(context, '/Área Pessoal');
+              }
+            },
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
