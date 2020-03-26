@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:uni/controller/LifecycleEventHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/view/Widgets/NavigationDrawer.dart';
@@ -12,24 +11,7 @@ import 'dart:io';
 
 abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
-  static WidgetsBindingObserver lifeCycleEventHandler;
   static FileImage decorageImage;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if(lifeCycleEventHandler != null){
-      WidgetsBinding.instance.removeObserver(lifeCycleEventHandler);
-    }
-    lifeCycleEventHandler = new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
-    WidgetsBinding.instance.addObserver(lifeCycleEventHandler);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {

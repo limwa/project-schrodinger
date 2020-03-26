@@ -34,9 +34,7 @@ Future logout(BuildContext context) async {
 
   final path = (await getApplicationDocumentsDirectory()).path;
   (new File('$path/profile_pic.png')).delete();
-  WidgetsBinding.instance.removeObserver(GeneralPageViewState.lifeCycleEventHandler);
   GeneralPageViewState.decorageImage = null;
-  GeneralPageViewState.lifeCycleEventHandler = null;
   PaintingBinding.instance.imageCache.clear();
   (await DefaultCacheManager()).emptyCache();
 
